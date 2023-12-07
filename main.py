@@ -2,16 +2,22 @@ from tkinter import *
 import pandas as pd
 from tkinter import ttk  # for Treeview
 from PIL import ImageTk, Image, ImageFile
+from datetime import datetime
+import uuid
+import random
+import string
+import os
+
 
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 df_Button = pd.read_excel("CSDL_MON.xlsx", index_col=None)
 
-df_Banhang = pd.read_excel("banhang.xlsx")
+
 
 df_Order = pd.DataFrame([], columns = ["STT","Tên sản phẩm",
                                        "Đơn giá", "Số lượng",
-                                       "Thành tiền"],index=[0])
+                                       "Thành tiền"])
 
 root = Tk()
 root.geometry("800x600")
@@ -79,8 +85,20 @@ def NhapMoi_Callback():
 def ThanhToan_Callback():
     global df_Order
     global df_Banhang
-    df_Banhang = df_Banhang._append(df_Order)
-    df_Banhang.to_excel("banhang.xlsx",index=False) 
+    submit_order= df_Order.copy()
+    submit_order.insert(loc = 0,column = 'Thời gian',value = datetime.now().strftime('%Y/%m/%d %H:%M:%S'))
+    submit_order.insert(loc = 1,column = 'Mã đơn hàng',value = ''.join(random.choices(string.ascii_letters + string.digits, k=10)))
+    submit_order['Khách hàng'] = str(ET_Customer.get())
+    submit_order['SĐT'] = str(ET_Phone.get())
+    submit_order.drop(columns=['STT'], inplace=True)
+    print(submit_order)
+    # df_Order.to_excel('a.xlsx',index=False)
+    if os.path.isfile('a.xlsx'):
+        df_Banhang = pd.read_excel('a.xlsx')
+        df_Banhang = df_Banhang._append(submit_order)
+        df_Banhang.to_excel("a.xlsx",index=False)
+    else:
+        submit_order.to_excel("a.xlsx",index=False)
    
 # Button creation
 BT_list = []
