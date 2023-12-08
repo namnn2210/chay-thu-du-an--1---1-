@@ -107,12 +107,12 @@ def ThanhToan_Callback():
     submit_order.drop(columns=['STT'], inplace=True)
     print(submit_order)
     # df_Order.to_excel('a.xlsx',index=False)
-    if os.path.isfile('a.xlsx'):
-        df_Banhang = pd.read_excel('a.xlsx')
+    if os.path.isfile('banhang.xlsx'):
+        df_Banhang = pd.read_excel('banhang.xlsx')
         df_Banhang = df_Banhang._append(submit_order)
-        df_Banhang.to_excel("a.xlsx", index=False)
+        df_Banhang.to_excel("banhang.xlsx", index=False)
     else:
-        submit_order.to_excel("a.xlsx", index=False)
+        submit_order.to_excel("banhang.xlsx", index=False)
 
 
 # Button creation

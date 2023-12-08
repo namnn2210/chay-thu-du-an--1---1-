@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
-df = pd.read_excel('a.xlsx')
+df = pd.read_excel('banhang.xlsx')
 product_data = pd.read_excel('CSDL_MON.xlsx')
 
 # -------------------------------------------------------------------------------------
